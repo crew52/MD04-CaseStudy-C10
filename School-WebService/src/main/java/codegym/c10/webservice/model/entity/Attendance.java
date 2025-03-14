@@ -3,6 +3,8 @@ package codegym.c10.webservice.model.entity;
 import codegym.c10.webservice.model.eNum.AttendanceStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -17,6 +19,7 @@ public class Attendance {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Student student;
 
     @Column(nullable = false)

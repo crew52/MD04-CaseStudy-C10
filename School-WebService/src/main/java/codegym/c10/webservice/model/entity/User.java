@@ -2,6 +2,8 @@ package codegym.c10.webservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -25,5 +27,6 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Role role;
 }

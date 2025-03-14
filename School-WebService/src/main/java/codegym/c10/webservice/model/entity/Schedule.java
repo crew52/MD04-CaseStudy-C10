@@ -3,6 +3,8 @@ package codegym.c10.webservice.model.entity;
 import codegym.c10.webservice.model.eNum.DayOfWeekEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -17,14 +19,17 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "class_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Classes classEntity;
 
     @ManyToOne
     @JoinColumn(name = "subject_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Subject subject;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Teacher teacher;
 
     @Enumerated(EnumType.STRING)

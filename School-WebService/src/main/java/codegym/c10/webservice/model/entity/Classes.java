@@ -3,6 +3,8 @@ package codegym.c10.webservice.model.entity;
 import codegym.c10.webservice.model.eNum.GradeLevel;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -20,6 +22,7 @@ public class Classes {
 
     @OneToOne
     @JoinColumn(name = "teacher_id", unique = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Teacher teacher;
 
     @Enumerated(EnumType.STRING)
