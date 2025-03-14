@@ -103,8 +103,10 @@ CREATE TABLE grades (
 CREATE TABLE attendance (
     id INT PRIMARY KEY AUTO_INCREMENT,
     student_id INT NOT NULL,
+    schedule_id INT NOT NULL,
     status ENUM('PRESENT', 'ABSENT', 'LATE') NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+	FOREIGN KEY (schedule_id) REFERENCES schedules(id) ON DELETE CASCADE
 );
 
 select * from roles;
