@@ -1,5 +1,6 @@
 package codegym.c10.webservice.model.entity;
 
+import codegym.c10.webservice.model.eNum.SubjectEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "subject_name", unique = true, nullable = false, length = 100)
-    private String subjectName;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subject_name", nullable = false)
+    private SubjectEnum subjectName;
 }
