@@ -22,6 +22,11 @@ public class Attendance {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Student student;
 
+    @ManyToOne
+    @JoinColumn(name = "schedule_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Schedule schedule;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AttendanceStatus status;

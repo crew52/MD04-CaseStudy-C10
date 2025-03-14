@@ -130,32 +130,32 @@ INSERT INTO grades (student_id, subject_id, teacher_id, score, exam_type, date) 
 (9, 4, 4, 7.6, 'FINAL', '2024-03-15'),
 (10, 5, 5, 9.0, 'QUIZ', '2024-03-07');
 
-INSERT INTO attendance (student_id, status) VALUES
+INSERT INTO attendance (student_id, schedule_id, status) VALUES
 -- Điểm danh cho lớp 1A
-(1, 'PRESENT'),
-(2, 'PRESENT'),
-(3, 'ABSENT'),
-(4, 'LATE'),
-(5, 'PRESENT'),
+(1, 1, 'PRESENT'),
+(2, 1, 'PRESENT'),
+(3, 2, 'ABSENT'),
+(4, 2, 'LATE'),
+(5, 3, 'PRESENT'),
 
 -- Điểm danh cho lớp 2B
-(6, 'PRESENT'),
-(7, 'LATE'),
-(8, 'PRESENT'),
-(9, 'ABSENT'),
-(10, 'PRESENT'),
+(6, 4, 'PRESENT'),
+(7, 4, 'LATE'),
+(8, 5, 'PRESENT'),
+(9, 5, 'ABSENT'),
+(10, 6, 'PRESENT'),
 
 -- Điểm danh cho lớp 3C
-(11, 'PRESENT'),
-(12, 'PRESENT'),
-(13, 'ABSENT'),
-(14, 'LATE'),
-(15, 'PRESENT'),
-(16, 'PRESENT'),
-(17, 'LATE'),
-(18, 'PRESENT'),
-(19, 'ABSENT'),
-(20, 'PRESENT');
+(11, 7, 'PRESENT'),
+(12, 7, 'PRESENT'),
+(13, 8, 'ABSENT'),
+(14, 8, 'LATE'),
+(15, 9, 'PRESENT'),
+(16, 9, 'PRESENT'),
+(17, 10, 'LATE'),
+(18, 10, 'PRESENT'),
+(19, 11, 'ABSENT'),
+(20, 11, 'PRESENT');
 
 SELECT * FROM roles;
 SELECT * FROM users;
