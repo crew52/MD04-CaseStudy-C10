@@ -12,23 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "teachers")
-public class Teacher {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false, length = 100)
-    private String name;
-
-    @Column(nullable = false)
-    private String dob;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Gender gender;
-
-    @Column(unique = true, nullable = false, length = 100)
-    private String email;
+public class Teacher extends Person {
 
     @Column(unique = true, length = 20)
     private String phone;
