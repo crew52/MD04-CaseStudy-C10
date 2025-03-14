@@ -1,5 +1,6 @@
 package codegym.c10.webservice.model.entity;
 
+import codegym.c10.webservice.model.eNum.ERole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "role_name", unique = true, nullable = false)
-    private String roleName;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_name",unique = true, nullable = false)
+    private ERole roleName;
 }

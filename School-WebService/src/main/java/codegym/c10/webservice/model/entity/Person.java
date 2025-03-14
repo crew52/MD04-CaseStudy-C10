@@ -23,7 +23,4 @@ public abstract class Person {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
-
-    @Column(unique = true, nullable = false, length = 100)
-    private String email;
 }

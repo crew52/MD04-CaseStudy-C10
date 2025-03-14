@@ -17,6 +17,9 @@ public class Teacher extends Person {
     @Column(unique = true, length = 20)
     private String phone;
 
+    @Column(unique = true, nullable = false, length = 100)
+    private String email;
+
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;

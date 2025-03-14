@@ -22,9 +22,6 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(unique = true, nullable = false, length = 100)
-    private String email;
-
     @ManyToOne
     @JoinColumn(name = "role_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
