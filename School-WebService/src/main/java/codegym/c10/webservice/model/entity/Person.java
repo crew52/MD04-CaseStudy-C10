@@ -4,6 +4,8 @@ import codegym.c10.webservice.model.eNum.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @MappedSuperclass
 @Getter
 @Setter
@@ -18,7 +20,7 @@ public abstract class Person {
     private String name;
 
     @Column(nullable = false)
-    private String dob;
+    private LocalDate dob;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

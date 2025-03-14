@@ -17,7 +17,7 @@ public class Classes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(name = "class_name", unique = true, nullable = false, length = 50)
     private String className;
 
     @OneToOne
@@ -26,6 +26,6 @@ public class Classes {
     private Teacher teacher;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "grade_level", nullable = false)
     private GradeLevel gradeLevel;
 }

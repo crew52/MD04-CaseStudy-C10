@@ -1,6 +1,5 @@
 package codegym.c10.webservice.model.entity;
 
-import codegym.c10.webservice.model.eNum.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

@@ -22,9 +22,6 @@ public class Attendance {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Student student;
 
-    @Column(nullable = false)
-    private String date;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AttendanceStatus status;

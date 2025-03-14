@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -36,9 +38,9 @@ public class Grade {
     private Float score;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "exam_type", nullable = false)
     private ExamType examType;
 
     @Column(nullable = false)
-    private String date;
+    private LocalDate date;
 }

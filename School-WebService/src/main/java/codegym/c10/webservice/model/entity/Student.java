@@ -1,6 +1,5 @@
 package codegym.c10.webservice.model.entity;
 
-import codegym.c10.webservice.model.eNum.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -22,6 +21,6 @@ public class Student extends Person {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Classes classEntity;
 
-    @Column(length = 50)
+    @Column(name = "parent_contact", length = 50)
     private String parentContact;
 }
