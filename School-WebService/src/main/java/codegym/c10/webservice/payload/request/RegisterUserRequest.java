@@ -4,15 +4,13 @@ import codegym.c10.webservice.model.entity.Role;
 import codegym.c10.webservice.validator.PasswordMatch;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
 
 @Getter @Setter
 @PasswordMatch
-public class CreateAccountTeacherRequest {
+public class RegisterUserRequest {
     @NotBlank(message = "Tên người dùng không được để trống")
     private String username;
 

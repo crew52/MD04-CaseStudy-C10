@@ -1,17 +1,17 @@
 package codegym.c10.webservice.validator;
 
-import codegym.c10.webservice.payload.request.CreateAccountTeacherRequest;
+import codegym.c10.webservice.payload.request.RegisterUserRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch, CreateAccountTeacherRequest > {
+public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch, RegisterUserRequest> {
     @Override
-    public boolean isValid(CreateAccountTeacherRequest createAccountTeacherRequest, ConstraintValidatorContext context) {
-        if (createAccountTeacherRequest == null) {
+    public boolean isValid(RegisterUserRequest registerUserRequest, ConstraintValidatorContext context) {
+        if (registerUserRequest == null) {
             return true;
         }
-        String password = createAccountTeacherRequest.getPassword();
-        String confirmPassword = createAccountTeacherRequest.getConfirmPassword();
+        String password = registerUserRequest.getPassword();
+        String confirmPassword = registerUserRequest.getConfirmPassword();
 
             return password != null && password.equals(confirmPassword);
     }
