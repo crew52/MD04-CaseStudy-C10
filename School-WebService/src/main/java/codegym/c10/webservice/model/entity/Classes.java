@@ -1,5 +1,6 @@
 package codegym.c10.webservice.model.entity;
 
+import codegym.c10.webservice.model.eNum.GradeLevel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class Classes {
     @JoinColumn(name = "teacher_id", unique = true)
     private Teacher teacher;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Integer gradeLevel;
+    private GradeLevel gradeLevel;
 }
