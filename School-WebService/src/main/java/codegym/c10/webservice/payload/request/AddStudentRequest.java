@@ -23,9 +23,6 @@ private Gender gender;
     @NotBlank(message = "Địa chỉ không được để trống")
 private String address;
 
-    @NotBlank(message = "Lớp học không được để trống")
-private Classes classEntity;
-
     @NotBlank(message = "Số điện thoại phụ huynh không được để trống")
     @Size(min = 10, max = 10, message = "Số điện thoại phụ huynh phải có 10 số")
 private String parentContact;
