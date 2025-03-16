@@ -25,7 +25,7 @@ public class UserPriciple implements UserDetails {
         this.authorities = authorities;
     }
 
-    public UserPriciple build(User user){
+    public static UserPriciple build(User user){
         List<GrantedAuthority> author = new ArrayList<>();
         Role role = user.getRole();
         author.add(new SimpleGrantedAuthority(role.getRoleName().name()));
