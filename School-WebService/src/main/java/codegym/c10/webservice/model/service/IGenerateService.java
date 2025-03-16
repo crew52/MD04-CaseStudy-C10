@@ -7,7 +7,7 @@ public interface IGenerateService<T> {
 
     T save(T T);
 
-    Optional<T> findById(Long id);
+    Optional<T> findById(Integer id);
 
-    void remove(Long id);
+    void remove(Integer id);
 }
