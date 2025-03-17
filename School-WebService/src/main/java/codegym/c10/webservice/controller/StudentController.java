@@ -1,7 +1,7 @@
 package codegym.c10.webservice.controller;
 
 import codegym.c10.webservice.model.entity.Student;
-import codegym.c10.webservice.model.service.studentservice.StudentService;
+import codegym.c10.webservice.model.service.studentservice.StudentServiceStudent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.List;
 public class StudentController {
 
     @Autowired
-    private StudentService studentService;
+    private StudentServiceStudent studentService;
 
 
 

@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface IStudentRepository extends JpaRepository<Student, Integer> { // Sửa Long thành Integer
     List<Student> findByNameContaining(String name);       //  tìm kiếm theo tên
-    List<Student> findByClassEntityId(Integer classId);    //  tìm kiếm theo lớp
+    List<Student> findByClassEntityId(Integer classId);    //  tìm kiếm theo lớp theo integer
 }

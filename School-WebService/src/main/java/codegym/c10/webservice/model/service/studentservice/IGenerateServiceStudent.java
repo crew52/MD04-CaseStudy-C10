@@ -2,7 +2,7 @@ package codegym.c10.webservice.model.service.studentservice;
 
 import java.util.List;
 
-public interface IGenerateService<T> {
+public interface IGenerateServiceStudent<T> {
     List<T> getAll();    // Hiển thị danh sách tất cả
     List<T> searchByName(String name);     // Tìm kiếm theo tên
     List<T> getByClassId(Integer classId);     // Tìm kiếm theo lớp
