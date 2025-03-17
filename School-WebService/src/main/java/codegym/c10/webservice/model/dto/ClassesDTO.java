@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 public class ClassesDTO {
     private Integer id;
     private String className;
+    private Integer teacherId;
+    private String teacherName;
+    private String gradeLevel;
 }
