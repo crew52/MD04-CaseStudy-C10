@@ -18,7 +18,7 @@ public class SubjectController {
     private ISubjectService iSubjectService;
 
     @GetMapping
-    public ResponseEntity<Iterable<Subject>> findAllType() {
+    public ResponseEntity<Iterable<Subject>> findAllSubject() {
         List<Subject> subjects = (List<Subject>) iSubjectService.findAll();
         if (subjects.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -27,7 +27,7 @@ public class SubjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Subject> findTypeById(@PathVariable Integer id) {
+    public ResponseEntity<Subject> findSubjectById(@PathVariable Integer id) {
         Optional<Subject> subjectOptional = iSubjectService.findById(id);
         return subjectOptional.map(subject -> new ResponseEntity<>(subject, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

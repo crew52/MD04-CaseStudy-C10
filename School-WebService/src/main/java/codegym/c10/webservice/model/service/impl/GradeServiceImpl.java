@@ -6,6 +6,10 @@ import codegym.c10.webservice.model.entity.*;
 import codegym.c10.webservice.model.repository.*;
 import codegym.c10.webservice.model.service.iface.IGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -74,5 +78,19 @@ public class GradeServiceImpl implements IGradeService {
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
 
         return new Grade(gradeDTO.getId(), student, subject, teacher, gradeDTO.getScore(), gradeDTO.getExamType(), gradeDTO.getDate());
+    }
+
+    @Override
+    public Page<GradeDTO> searchGrades(String className, String studentName, String subjectName, String examType, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        return iGradeRepository.searchGrades(className, studentName, subjectName, examType, pageable)
+                .map(this::convertToDTO);
+    }
+
+    @Override
+    public Page<GradeDTO> searchGradesByTeacher(Integer teacherId, String className, String studentName, String subjectName, String examType, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        return iGradeRepository.searchGradesByTeacher(teacherId, className, studentName, subjectName, examType, pageable)
+                .map(this::convertToDTO);
     }
 }

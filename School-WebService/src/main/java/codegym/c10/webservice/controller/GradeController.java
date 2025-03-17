@@ -2,9 +2,9 @@ package codegym.c10.webservice.controller;
 
 import codegym.c10.webservice.model.dto.AttendanceDTO;
 import codegym.c10.webservice.model.dto.GradeDTO;
-import codegym.c10.webservice.model.service.iface.IAttendanceService;
 import codegym.c10.webservice.model.service.iface.IGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +46,30 @@ public class GradeController {
         }
         gradeDTO.setId(id); // Đảm bảo ID được cập nhật đúng
         return ResponseEntity.ok(iGradeService.save(gradeDTO));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<GradeDTO>> searchAttendances(
+            @RequestParam(required = false) String className,
+            @RequestParam(required = false) String studentName,
+            @RequestParam(required = false) String subjectName,
+            @RequestParam(required = false) String examType,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(iGradeService.searchGrades(className, studentName, subjectName,examType, page, size));
+    }
+
+    @GetMapping("/teacher/{id}")
+    public ResponseEntity<Page<GradeDTO>> getTeacherAttendances(
+            @PathVariable("id") Integer teacherId,
+            @RequestParam(required = false) String className,
+            @RequestParam(required = false) String studentName,
+            @RequestParam(required = false) String subjectName,
+            @RequestParam(required = false) String examType,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<GradeDTO> gradeDTOS = iGradeService.searchGradesByTeacher(teacherId, className, studentName, subjectName, examType, page, size);
+        return ResponseEntity.ok(gradeDTOS);
     }
 }
