@@ -1,6 +1,5 @@
 package codegym.c10.webservice.model.repository;
 
-import codegym.c10.webservice.model.dto.StudentDTO;
 import codegym.c10.webservice.model.entity.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,15 +10,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IStudentRepository extends JpaRepository<Student, Integer> {
-    @Query("SELECT new codegym.c10.webservice.model.dto.StudentDTO(s.id, s.name, s.dob, s.gender, c.id, c, s.parentContact) " +
-            "FROM Student s JOIN s.classEntity c " +
-            "WHERE (:name IS NULL OR s.name LIKE %:name%) " +
-            "AND (:className IS NULL OR c.className LIKE %:className%)")
-    Page<StudentDTO> searchStudents(@Param("name") String name,
-                                    @Param("className") String className,
-                                    Pageable pageable);
+    Page<Student> findAll(Pageable pageable);
 
-    @Query("SELECT new codegym.c10.webservice.model.dto.StudentDTO(s.id, s.name, s.dob, s.gender, c.id, c, s.parentContact) " +
-            "FROM Student s JOIN s.classEntity c")
-    Page<StudentDTO> findAllStudents(Pageable pageable);
+    // Tìm kiếm học sinh theo tên lớp (className) với phân trang
+    @Query("SELECT s FROM Student s WHERE s.classEntity.className LIKE %:className%")
+    Page<Student> findByClassName(@Param("className") String className, Pageable pageable);
+
+    // Tìm kiếm học sinh theo tên học sinh với phân trang
+    @Query("SELECT s FROM Student s WHERE s.name LIKE %:name%")
+    Page<Student> findByName(@Param("name") String name, Pageable pageable);
+
+    // Tìm kiếm học sinh theo tên lớp và tên học sinh với phân trang
+    @Query("SELECT s FROM Student s WHERE s.classEntity.className LIKE %:className% AND s.name LIKE %:name%")
+    Page<Student> findByClassNameAndName(@Param("className") String className,
+                                         @Param("name") String name,
+                                         Pageable pageable);
 }

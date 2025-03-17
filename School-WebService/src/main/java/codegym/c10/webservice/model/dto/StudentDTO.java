@@ -1,7 +1,6 @@
 package codegym.c10.webservice.model.dto;
 
 import codegym.c10.webservice.model.eNum.Gender;
-import codegym.c10.webservice.model.entity.Classes;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

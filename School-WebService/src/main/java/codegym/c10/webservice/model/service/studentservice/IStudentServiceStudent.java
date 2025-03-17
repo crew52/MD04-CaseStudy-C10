@@ -5,5 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IStudentServiceStudent extends IGenerateServiceStudent<StudentDTO> {
-    Page<StudentDTO> searchStudents(String name, String className, Pageable pageable);
+    Page<StudentDTO> searchByClassName(String className, Pageable pageable);
+    Page<StudentDTO> searchByName(String name, Pageable pageable);
+    Page<StudentDTO> searchByClassNameAndName(String className, String name, Pageable pageable);
 }

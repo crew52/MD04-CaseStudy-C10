@@ -5,7 +5,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface IGenerateServiceStudent<T> {
     Page<T> findAll(Pageable pageable);
-    T save(T t);
-    void deleteById(Integer id);
     T findById(Integer id);
+    T save(T entity);
+    T update(Integer id, T entity);
+    void delete(Integer id);
 }

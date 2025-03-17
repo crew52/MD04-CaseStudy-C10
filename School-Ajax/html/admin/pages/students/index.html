@@ -3,41 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Học sinh</title>
+    <title>Quản lý Lịch học</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .search-bar {
-            width: 50%;
-        }
-        .table-container {
-            margin-top: 20px;
-        }
-        .student-form {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .hidden {
-            display: none;
-        }
-        .add-btn {
-            margin-left: 10px;
-        }
-        .pagination {
-            margin-top: 20px;
-            justify-content: center;
-        }
-    </style>
 </head>
 <body>
 
@@ -48,77 +16,96 @@
     <!-- Load Sidebar -->
     <div id="sidebar"></div>
 
+    <!-- Nội dung chính -->
     <div id="content" class="flex-grow-1 p-3">
-        <div class="content-header">
-            <h3>Quản lý Học sinh</h3>
-            <div class="d-flex align-items-center">
-                <div class="search-bar input-group">
-                    <input type="text" id="searchName" class="form-control" placeholder="Tìm kiếm theo tên...">
-                    <input type="text" id="className" class="form-control" placeholder="Tên lớp (tùy chọn)">
-                    <button class="btn btn-primary" onclick="searchStudents()">
-                        <i class="fa fa-search"></i> Tìm kiếm
-                    </button>
-                    <button class="btn btn-info ms-2" onclick="loadAllStudents()">
-                        <i class="fa fa-list"></i> Hiển thị tất cả
-                    </button>
-                </div>
-                <button class="btn btn-success add-btn" onclick="showAddForm()">
-                    <i class="fa fa-plus"></i> Thêm học sinh
-                </button>
+        <h3>Quản lý Học Sinh</h3>
+
+        <!-- Form Thêm/Sửa Học Sinh -->
+        <div class="card mb-4">
+            <div class="card-header">Thêm/Cập Nhật Học Sinh</div>
+            <div class="card-body">
+                <form id="studentForm">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="hidden" id="studentId" name="id">
+                            <label for="studentName" class="form-label">Tên Học Sinh</label>
+                            <input type="text" class="form-control" id="studentName" name="name" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="dob" class="form-label">Ngày Sinh</label>
+                            <input type="date" class="form-control" id="dob" name="dob" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="gender" class="form-label">Giới Tính</label>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="MALE">Nam</option>
+                                <option value="FEMALE">Nữ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="classId" class="form-label">Lớp</label>
+                            <select class="form-select" id="classId" name="classId" required>
+                                <!-- Dữ liệu lớp sẽ được tải bằng AJAX -->
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="parentContact" class="form-label">Liên Hệ Phụ Huynh</label>
+                            <input type="text" class="form-control" id="parentContact" name="parentContact" required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary mt-4" onclick="saveStudent()">Lưu</button>
+                            <button type="button" class="btn btn-secondary mt-4" onclick="clearForm()">Hủy</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
-        <!-- Khu vực hiển thị nội dung động -->
-        <div id="dynamicContent">
-            <!-- Danh sách học sinh -->
-            <div id="studentList" class="table-container">
-                <table class="table table-striped table-bordered">
-                    <thead class="table-dark">
+        <!-- Search Form -->
+        <div class="card mb-4">
+            <div class="card-header">Tìm Kiếm Học Sinh</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="searchName" placeholder="Tên học sinh">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="searchClassName" placeholder="Tên lớp">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" onclick="searchStudents()">Tìm Kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Table -->
+        <div class="card">
+            <div class="card-header">Danh Sách Học Sinh</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
                         <th>ID</th>
                         <th>Tên</th>
-                        <th>Ngày sinh</th>
-                        <th>Giới tính</th>
+                        <th>Ngày Sinh</th>
+                        <th>Giới Tính</th>
                         <th>Lớp</th>
-                        <th>Hành động</th>
+                        <th>Liên Hệ Phụ Huynh</th>
+                        <th>Hành Động</th>
                     </tr>
                     </thead>
                     <tbody id="studentTableBody"></tbody>
                 </table>
-                <!-- Phân trang -->
-                <nav aria-label="Page navigation" class="pagination">
-                    <ul class="pagination" id="pagination"></ul>
-                </nav>
-                <div id="pageInfo" class="text-center mt-2"></div> <!-- Hiển thị thông tin trang -->
-            </div>
 
-            <!-- Form thêm/sửa học sinh -->
-            <div id="studentForm" class="student-form hidden">
-                <h4 id="formTitle">Thêm học sinh mới</h4>
-                <form id="addEditForm">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Tên:</label>
-                        <input type="text" class="form-control" id="name" required>
+                <!-- Pagination -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-secondary" onclick="changePage(-1)">Trang Trước</button>
+                        <span id="pageInfo" class="mx-2"></span>
+                        <button class="btn btn-secondary" onclick="changePage(1)">Trang Sau</button>
                     </div>
-                    <div class="mb-3">
-                        <label for="dob" class="form-label">Ngày sinh:</label>
-                        <input type="date" class="form-control" id="dob" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="gender" class="form-label">Giới tính:</label>
-                        <select class="form-select" id="gender" required>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="classIdInput" class="form-label">ID Lớp:</label>
-                        <input type="number" class="form-control" id="classIdInput" required>
-                    </div>
-                    <input type="hidden" id="studentId">
-                    <button type="button" class="btn btn-success" onclick="saveStudent()">Lưu</button>
-                    <button type="button" class="btn btn-secondary" onclick="showStudentList()">Hủy</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -130,6 +117,3 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../../../js/admin/loadComponents.js"></script>
-<script src="../../../../js/admin/handleStudent.js"></script>
-</body>
-</html>
