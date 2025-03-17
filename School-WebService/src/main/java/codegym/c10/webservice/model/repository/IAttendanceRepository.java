@@ -22,4 +22,21 @@ public interface IAttendanceRepository extends JpaRepository<Attendance, Integer
     Page<Attendance> searchAttendances(@Param("className") String className,
                                        @Param("studentName") String studentName,
                                        Pageable pageable);
+
+    // Teacher: Chỉ lấy danh sách điểm danh của lớp do giáo viên đó dạy
+    @Query("SELECT a FROM Attendance a " +
+            "JOIN a.schedule sch " +
+            "JOIN sch.classEntity c " +
+            "JOIN sch.teacher t " +
+            "JOIN a.student s " +
+            "WHERE t.id = :teacherId " +  // Bắt buộc lọc theo teacherId
+            "AND (:className IS NULL OR LOWER(c.className) LIKE LOWER(CONCAT('%', :className, '%'))) " +
+            "AND (:studentName IS NULL OR LOWER(s.name) LIKE LOWER(CONCAT('%', :studentName, '%')))")
+
+    Page<Attendance> getTeacherAttendances(
+            @Param("teacherId") Integer teacherId,
+            @Param("className") String className,
+            @Param("studentName") String studentName,
+            Pageable pageable);
+
 }
