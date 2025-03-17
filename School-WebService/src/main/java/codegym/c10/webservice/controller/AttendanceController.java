@@ -2,7 +2,6 @@ package codegym.c10.webservice.controller;
 
 import codegym.c10.webservice.model.dto.AttendanceDTO;
 import codegym.c10.webservice.model.service.iface.IAttendanceService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +36,14 @@ public class AttendanceController {
     public ResponseEntity<Void> deleteAttendance(@PathVariable Integer id) {
         attendanceService.remove(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AttendanceDTO> updateAttendance(@PathVariable Integer id, @RequestBody AttendanceDTO attendanceDTO) {
+        if (!attendanceService.findById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        attendanceDTO.setId(id); // Đảm bảo ID được cập nhật đúng
+        return ResponseEntity.ok(attendanceService.save(attendanceDTO));
     }
 }

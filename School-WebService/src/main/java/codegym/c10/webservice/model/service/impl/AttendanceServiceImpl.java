@@ -38,7 +38,9 @@ public class AttendanceServiceImpl implements IAttendanceService {
 
     @Override
     public AttendanceDTO save(AttendanceDTO attendanceDTO) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Attendance attendance = convertToEntity(attendanceDTO); // Chuyển DTO thành Entity
+        Attendance savedAttendance = iAttendanceRepository.save(attendance); // Lưu vào DB
+        return convertToDTO(savedAttendance); // Chuyển lại thành DTO để trả về
     }
 
     @Override
