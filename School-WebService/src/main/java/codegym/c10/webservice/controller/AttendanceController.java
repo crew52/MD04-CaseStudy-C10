@@ -56,4 +56,18 @@ public class AttendanceController {
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(attendanceService.searchAttendances(className, studentName, page, size));
     }
+
+    // API cho Teacher
+    @GetMapping("/teacher/{id}")
+    public ResponseEntity<Page<AttendanceDTO>> getTeacherAttendances(
+            @PathVariable("id") Integer teacherId,
+            @RequestParam(required = false) String className,
+            @RequestParam(required = false) String studentName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<AttendanceDTO> attendances = attendanceService.getTeacherAttendances(teacherId, className, studentName, page, size);
+        return ResponseEntity.ok(attendances);
+    }
+
 }

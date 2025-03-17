@@ -14,11 +14,13 @@ import java.time.LocalTime;
 public class AttendanceDTO {
     private Integer id;
     private Integer studentId;
+    private String studentName;
     private Integer scheduleId;
-    private String studentName; // Thêm tên học sinh
     private AttendanceStatus status;
+    private Integer classId;
     private String className;  // Tên lớp
     private String subjectName; // Tên môn học
+    private Integer teacherId;
     private String teacherName; // Tên giáo viên
     private LocalDate date; // Ngày học
     private LocalTime startTime; // Thời gian bắt đầu
