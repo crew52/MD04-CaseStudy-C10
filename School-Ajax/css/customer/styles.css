@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#sidebar a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#sidebar a:hover {
+    background-color: #f8f9fa;
+}
