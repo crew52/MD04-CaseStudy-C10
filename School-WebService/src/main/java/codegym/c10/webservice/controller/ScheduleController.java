@@ -1,42 +1,51 @@
+// ScheduleController.java
 package codegym.c10.webservice.controller;
 
-
-import codegym.c10.webservice.model.Schedule;
-import codegym.c10.webservice.service.ScheduleService;
+import codegym.c10.webservice.model.entity.Schedule;
+import codegym.c10.webservice.model.service.iface.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/schedules")
+@CrossOrigin(origins = "http://localhost:63342") // CHO PHÉP TRUY CẬP TỪ CLIENT
+@RequestMapping("/schedules")
 public class ScheduleController {
     @Autowired
-    private ScheduleService scheduleService;
+    private IScheduleService scheduleService;
 
-    //    @GetMapping("/class/{classId}")
-//    public List<Schedule> getByClassId(@PathVariable String classId) {
-//        return scheduleService.getScheduleByClassId(classId);
-//    }
-//
-//    @GetMapping("/teacher/{teacherId}")
-//    public List<Schedule> getByTeacherId(@PathVariable String teacherId) {
-//        return scheduleService.getScheduleByTeacherId(teacherId);
-//    }
-    @GetMapping("/class/{classId}")
-    public Page<Schedule> getByClassId(
-            @PathVariable String classId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        return scheduleService.getScheduleByClassId(classId, page, size);
+    @GetMapping
+    public Iterable<Schedule> getAllSchedules() {
+        return scheduleService.findAll();
     }
 
-    @GetMapping("/teacher/{teacherId}")
-    public Page<Schedule> getByTeacherId(
-            @PathVariable String teacherId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        return scheduleService.getScheduleByTeacherId(teacherId, page, size);
+    @GetMapping("/{id}")
+    public ResponseEntity<Schedule> getScheduleById(@PathVariable Integer id) {
+        Optional<Schedule> schedule = scheduleService.findById(id);
+        return schedule.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Schedule createSchedule(@RequestBody Schedule schedule) {
+        return scheduleService.save(schedule);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Schedule> updateSchedule(@PathVariable Integer id, @RequestBody Schedule schedule) {
+        Optional<Schedule> existingSchedule = scheduleService.findById(id);
+        if (existingSchedule.isPresent()) {
+            schedule.setId(id);
+            return ResponseEntity.ok(scheduleService.save(schedule));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Integer id) {
+        scheduleService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 }
