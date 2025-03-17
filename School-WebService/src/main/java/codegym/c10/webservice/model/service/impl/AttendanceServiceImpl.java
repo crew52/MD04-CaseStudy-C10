@@ -9,6 +9,10 @@ import codegym.c10.webservice.model.repository.IScheduleRepository;
 import codegym.c10.webservice.model.repository.IStudentRepository;
 import codegym.c10.webservice.model.service.iface.IAttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -71,5 +75,12 @@ public class AttendanceServiceImpl implements IAttendanceService {
                 .orElseThrow(() -> new RuntimeException("Schedule not found"));
 
         return new Attendance(attendanceDTO.getId(), student, schedule, attendanceDTO.getStatus());
+    }
+
+    @Override
+    public Page<AttendanceDTO> searchAttendances(String className, String studentName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        return iAttendanceRepository.searchAttendances(className, studentName, pageable)
+                .map(this::convertToDTO);
     }
 }

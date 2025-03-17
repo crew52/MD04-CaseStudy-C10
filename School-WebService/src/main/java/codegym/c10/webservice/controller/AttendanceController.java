@@ -3,6 +3,7 @@ package codegym.c10.webservice.controller;
 import codegym.c10.webservice.model.dto.AttendanceDTO;
 import codegym.c10.webservice.model.service.iface.IAttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,5 +46,14 @@ public class AttendanceController {
         }
         attendanceDTO.setId(id); // Đảm bảo ID được cập nhật đúng
         return ResponseEntity.ok(attendanceService.save(attendanceDTO));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<AttendanceDTO>> searchAttendances(
+            @RequestParam(required = false) String className,
+            @RequestParam(required = false) String studentName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(attendanceService.searchAttendances(className, studentName, page, size));
     }
 }
