@@ -6,4 +6,5 @@ import codegym.c10.webservice.model.service.IGenerateService;
 public interface ITeacherProfileService extends IGenerateService<TeacherProfileDTO> {
     TeacherProfileDTO findTeacherByUserId(Integer userId);
     TeacherProfileDTO updateTeacherByUserId(Integer userId, TeacherProfileDTO dto);
+    TeacherProfileDTO findTeacherDetailsByUserId(Integer userId);
 }

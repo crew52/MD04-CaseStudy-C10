@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/teachersProfile")
 @CrossOrigin("*")
 public class TeacherProfileController {
+
     @Autowired
     private ITeacherProfileService teacherProfileService;
 
@@ -18,6 +19,16 @@ public class TeacherProfileController {
     public ResponseEntity<TeacherProfileDTO> getTeacherProfileByUserId(@PathVariable("userId") Integer userId) {
         try {
             TeacherProfileDTO teacherDTO = teacherProfileService.findTeacherByUserId(userId);
+            return new ResponseEntity<>(teacherDTO, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/details/{userId}")
+    public ResponseEntity<TeacherProfileDTO> getTeacherDetailsByUserId(@PathVariable("userId") Integer userId) {
+        try {
+            TeacherProfileDTO teacherDTO = teacherProfileService.findTeacherDetailsByUserId(userId);
             return new ResponseEntity<>(teacherDTO, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -35,7 +46,4 @@ public class TeacherProfileController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
-
 }

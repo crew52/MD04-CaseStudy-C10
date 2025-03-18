@@ -69,26 +69,26 @@
             <form id="teacherProfileForm">
               <div class="mb-3">
                 <label for="teacherName" class="form-label">Họ tên</label>
-                <input type="text" class="form-control" id="teacherName">
+                <input type="text" class="form-control" id="teacherName" required>
               </div>
               <div class="mb-3">
                 <label for="teacherDob" class="form-label">Ngày sinh</label>
-                <input type="date" class="form-control" id="teacherDob">
+                <input type="date" class="form-control" id="teacherDob" required>
               </div>
               <div class="mb-3">
                 <label for="teacherGender" class="form-label">Giới tính</label>
-                <select class="form-control" id="teacherGender">
+                <select class="form-control" id="teacherGender" required>
                   <option value="MALE">Nam</option>
                   <option value="FEMALE">Nữ</option>
                 </select>
               </div>
               <div class="mb-3">
                 <label for="teacherPhone" class="form-label">Số điện thoại</label>
-                <input type="text" class="form-control" id="teacherPhone">
+                <input type="text" class="form-control" id="teacherPhone" required>
               </div>
               <div class="mb-3">
                 <label for="teacherEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="teacherEmail">
+                <input type="email" class="form-control" id="teacherEmail" required>
               </div>
 
               <button type="button" class="btn btn-primary" onclick="updateTeacherProfile()">Lưu</button>

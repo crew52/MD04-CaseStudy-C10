@@ -8,8 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IStudentRepository extends JpaRepository<Student, Integer> {
+    List<Student> findByClassEntity_Id(Integer classId);
     Page<Student> findAll(Pageable pageable);
 
     // Tìm kiếm học sinh theo tên lớp (className) với phân trang

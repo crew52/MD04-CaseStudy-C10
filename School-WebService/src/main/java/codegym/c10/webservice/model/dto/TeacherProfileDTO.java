@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,5 +21,8 @@ public class TeacherProfileDTO {
     private SubjectEnum subjectName;
     private Integer userId;
     private String username;
+    private ClassesDTO classInfo;
+    private List<StudentDTO> students;
+
 
 }
