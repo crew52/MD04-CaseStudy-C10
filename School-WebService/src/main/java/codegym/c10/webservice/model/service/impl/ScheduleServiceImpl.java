@@ -21,24 +21,24 @@ public class ScheduleServiceImpl implements IScheduleService {
 
     @Override
     public Iterable<Schedule> findAll() {
-        // Implement the method logic here
         return scheduleRepository.findAll();
     }
 
     @Override
     public Schedule save(Schedule schedule) {
-        return null;
+        return scheduleRepository.save(schedule);
     }
 
     @Override
     public Optional<Schedule> findById(Integer id) {
-        return Optional.empty();
+        return scheduleRepository.findById(id);
     }
 
     @Override
     public void remove(Integer id) {
-
+        scheduleRepository.deleteById(id);
     }
+
     @Override
     public List<Schedule> findByTeacherId(Integer teacherId) {
         return scheduleRepository.findByTeacher_Id(teacherId);
@@ -49,5 +49,5 @@ public class ScheduleServiceImpl implements IScheduleService {
         return scheduleRepository.findByTeacherName(teacherName);
     }
 
-
+    //
 }

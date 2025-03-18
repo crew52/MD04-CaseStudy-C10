@@ -20,7 +20,7 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE) // Thêm cascade để tự động merge nếu entity chưa có
     @JoinColumn(name = "class_id", nullable = false)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Classes classEntity;
