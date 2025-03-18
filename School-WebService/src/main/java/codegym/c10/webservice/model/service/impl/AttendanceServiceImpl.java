@@ -1,6 +1,7 @@
 package codegym.c10.webservice.model.service.impl;
 
 import codegym.c10.webservice.model.dto.AttendanceDTO;
+import codegym.c10.webservice.model.dto.GradeDTO;
 import codegym.c10.webservice.model.entity.Attendance;
 import codegym.c10.webservice.model.entity.Schedule;
 import codegym.c10.webservice.model.entity.Student;
@@ -91,5 +92,10 @@ public class AttendanceServiceImpl implements IAttendanceService {
         Pageable pageable = PageRequest.of(page, size);
         return iAttendanceRepository.getTeacherAttendances(teacherId, className, studentName, pageable)
                 .map(this::convertToDTO);
+    }
+
+    @Override
+    public Page<AttendanceDTO> findAll(Pageable pageable) {
+        return iAttendanceRepository.findAll(pageable).map(this::convertToDTO);
     }
 }

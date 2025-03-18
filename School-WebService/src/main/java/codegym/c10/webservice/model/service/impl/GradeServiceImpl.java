@@ -93,4 +93,9 @@ public class GradeServiceImpl implements IGradeService {
         return iGradeRepository.searchGradesByTeacher(teacherId, className, studentName, subjectName, examType, pageable)
                 .map(this::convertToDTO);
     }
+
+    @Override
+    public Page<GradeDTO> findAll(Pageable pageable) {
+        return iGradeRepository.findAll(pageable).map(this::convertToDTO);
+    }
 }

@@ -5,6 +5,7 @@ import codegym.c10.webservice.model.dto.GradeDTO;
 import codegym.c10.webservice.model.service.iface.IGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +13,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/grades")
+@CrossOrigin(origins = "*")
 public class GradeController {
     @Autowired
     private IGradeService iGradeService;
 
     @GetMapping
-    public ResponseEntity<List<GradeDTO>> getAllGrades() {
-        return ResponseEntity.ok((List<GradeDTO>) iGradeService.findAll());
+    public ResponseEntity<Page<GradeDTO>> getAllGrades(@RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "10") int size) {
+        Page<GradeDTO> gradePage = iGradeService.findAll(PageRequest.of(page, size));
+        return ResponseEntity.ok(gradePage);
     }
 
     @GetMapping("/{id}")

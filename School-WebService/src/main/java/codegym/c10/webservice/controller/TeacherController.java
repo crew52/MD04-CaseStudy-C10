@@ -1,8 +1,10 @@
 package codegym.c10.webservice.controller;
 
+import codegym.c10.webservice.model.dto.TeacherUserRequestDTO;
 import codegym.c10.webservice.model.eNum.SubjectEnum;
 import codegym.c10.webservice.model.entity.Teacher;
 import codegym.c10.webservice.model.eNum.Gender;
+import codegym.c10.webservice.model.entity.User;
 import codegym.c10.webservice.model.service.impl.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,18 @@ public class TeacherController {
         Sort.Direction direction = (directionStr != null) ? Sort.Direction.valueOf(directionStr.toUpperCase()) : null;
         Page<Teacher> teachers = teacherService.findAllPaged(pageNumber, pageSize, sortBy, direction);
         return new ResponseEntity<>(teachers, HttpStatus.OK);
+    }
+
+    @PostMapping("/create-with-user")
+    public ResponseEntity<Teacher> createTeacherWithUser(@RequestBody TeacherUserRequestDTO request) {
+        try {
+            Teacher teacher = request.getTeacher();
+            User user = request.getUser();
+            Teacher savedTeacher = teacherService.createTeacherWithUser(teacher, user);
+            return new ResponseEntity<>(savedTeacher, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT); // 409 nếu username trùng
+        }
     }
 
     @GetMapping("/{id}")
