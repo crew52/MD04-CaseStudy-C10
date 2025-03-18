@@ -30,7 +30,7 @@ public class UserPrinciple implements UserDetails {
     public static UserPrinciple build(User user) {
 //        quyen de xac thuc -> GrantedAuthority
         List<GrantedAuthority> author = new ArrayList<>();
-        author.add(new SimpleGrantedAuthority(user.getRole().getRoleName().name()));
+        author.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getRoleName().name()));
         return new UserPrinciple(user.getUsername(), user.getPassword(), author);
     }
 

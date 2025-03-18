@@ -52,19 +52,19 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(
-                        auth -> auth
-                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                                .requestMatchers("/api/login").permitAll()
-                                .requestMatchers("/api/teachers/**").permitAll()
-//                                .requestMatchers("/api/types/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/login").permitAll()
+                        // Teacher chỉ có thể truy cập student APIs
+                        .requestMatchers("/api/students/**").hasRole("TEACHER")
+                        // Admin có thể truy cập tất cả
+                        .anyRequest().hasRole("ADMIN")
                 )
                 .build();
     }
+
 }
