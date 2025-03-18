@@ -20,10 +20,13 @@
     <div id="content" class="flex-grow-1 p-3">
         <h3>Quản lý Lớp học</h3>
 
-        <!-- Nút mở modal để thêm lớp -->
+        <!-- Nút mở modal để thêm lớp và reset -->
         <div class="mb-4">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#classModal" onclick="prepareAddClass()">
                 <i class="fas fa-plus"></i> Thêm Lớp học
+            </button>
+            <button class="btn btn-secondary" onclick="resetData()">
+                <i class="fas fa-sync-alt"></i> Reset
             </button>
         </div>
 
