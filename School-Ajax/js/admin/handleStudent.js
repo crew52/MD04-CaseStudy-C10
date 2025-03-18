@@ -3,7 +3,7 @@ let pageSize = 10;
 let currentSearchParams = null;
 
 // Load initial data
-$(document).ready(function() {
+$(document).ready(function () {
     loadStudents(currentPage, pageSize);
     loadClasses(); // Tải danh sách lớp cho modal thêm/sửa
     loadSearchClasses(); // Tải danh sách lớp cho modal tìm kiếm
@@ -11,58 +11,82 @@ $(document).ready(function() {
 
 // Load students
 function loadStudents(page, size) {
-    $.ajax({
-        url: `http://localhost:8080/api/students?page=${page}&size=${size}`,
-        method: "GET",
-        success: function(response) {
-            updateTable(response.content);
-            updatePagination(response);
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching students: ", error);
-            alert("Không thể tải danh sách học sinh. Vui lòng thử lại.");
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `http://localhost:8080/api/students?page=${page}&size=${size}`,
+            method: "GET",
+            success: function (response) {
+                updateTable(response.content);
+                updatePagination(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching students: ", error);
+                alert("Không thể tải danh sách học sinh. Vui lòng thử lại.");
+            }
+        });
+    }
 }
 
 // Load classes into select box for adding/editing
 function loadClasses() {
-    $.ajax({
-        url: "http://localhost:8080/api/classes",
-        method: "GET",
-        success: function(response) {
-            const classSelect = $("#classId");
-            classSelect.empty();
-            classSelect.append('<option value="">Chọn lớp</option>');
-            response.forEach(cls => {
-                classSelect.append(`<option value="${cls.id}">${cls.className}</option>`);
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching classes: ", error);
-            alert("Không thể tải danh sách lớp học. Vui lòng thử lại.");
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: "http://localhost:8080/api/classes",
+            method: "GET",
+            success: function (response) {
+                const classSelect = $("#classId");
+                classSelect.empty();
+                classSelect.append('<option value="">Chọn lớp</option>');
+                response.forEach(cls => {
+                    classSelect.append(`<option value="${cls.id}">${cls.className}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching classes: ", error);
+                alert("Không thể tải danh sách lớp học. Vui lòng thử lại.");
+            }
+        });
+    }
 }
 
 // Load classes into select box for searching
 function loadSearchClasses() {
-    $.ajax({
-        url: "http://localhost:8080/api/classes",
-        method: "GET",
-        success: function(response) {
-            const searchClassSelect = $("#searchClassId");
-            searchClassSelect.empty();
-            searchClassSelect.append('<option value="">Tất cả lớp</option>');
-            response.forEach(cls => {
-                searchClassSelect.append(`<option value="${cls.id}">${cls.className}</option>`);
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching classes: ", error);
-            alert("Không thể tải danh sách lớp học cho tìm kiếm. Vui lòng thử lại.");
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: "http://localhost:8080/api/classes",
+            method: "GET",
+            success: function (response) {
+                const searchClassSelect = $("#searchClassId");
+                searchClassSelect.empty();
+                searchClassSelect.append('<option value="">Tất cả lớp</option>');
+                response.forEach(cls => {
+                    searchClassSelect.append(`<option value="${cls.id}">${cls.className}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching classes: ", error);
+                alert("Không thể tải danh sách lớp học cho tìm kiếm. Vui lòng thử lại.");
+            }
+        });
+    }
 }
 
 // Update table with student data
@@ -126,24 +150,32 @@ function clearForm() {
 
 // Edit student
 function editStudent(id) {
-    $.ajax({
-        url: `http://localhost:8080/api/students/${id}`,
-        method: "GET",
-        success: function(student) {
-            $("#studentId").val(student.id);
-            $("#studentName").val(student.name);
-            $("#dob").val(student.dob);
-            $("#gender").val(student.gender);
-            $("#classId").val(student.classId);
-            $("#parentContact").val(student.parentContact);
-            $("#studentModalLabel").text("Cập Nhật Học Sinh");
-            $("#studentModal").modal('show');
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching student: ", error);
-            alert("Không thể tải thông tin học sinh. Vui lòng thử lại.");
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `http://localhost:8080/api/students/${id}`,
+            method: "GET",
+            success: function (student) {
+                $("#studentId").val(student.id);
+                $("#studentName").val(student.name);
+                $("#dob").val(student.dob);
+                $("#gender").val(student.gender);
+                $("#classId").val(student.classId);
+                $("#parentContact").val(student.parentContact);
+                $("#studentModalLabel").text("Cập Nhật Học Sinh");
+                $("#studentModal").modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching student: ", error);
+                alert("Không thể tải thông tin học sinh. Vui lòng thử lại.");
+            }
+        });
+    }
 }
 
 // Save or update student
@@ -159,40 +191,55 @@ function saveStudent() {
 
     const url = studentData.id ? `http://localhost:8080/api/students/${studentData.id}` : "http://localhost:8080/api/students";
     const method = studentData.id ? "PUT" : "POST";
-
-    $.ajax({
-        url: url,
-        method: method,
-        contentType: "application/json",
-        data: JSON.stringify(studentData),
-        success: function(response) {
-            alert(studentData.id ? "Cập nhật thành công!" : "Thêm mới thành công!");
-            $("#studentModal").modal('hide');
-            clearForm();
-            loadStudents(currentPage, pageSize);
-        },
-        error: function(xhr, status, error) {
-            console.error("Error saving student: ", error);
-            alert("Có lỗi xảy ra. Vui lòng thử lại.");
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: url,
+            method: method,
+            contentType: "application/json",
+            data: JSON.stringify(studentData),
+            success: function (response) {
+                alert(studentData.id ? "Cập nhật thành công!" : "Thêm mới thành công!");
+                $("#studentModal").modal('hide');
+                clearForm();
+                loadStudents(currentPage, pageSize);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error saving student: ", error);
+                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            }
+        });
+    }
 }
 
 // Delete student
 function deleteStudent(id) {
     if (confirm("Bạn có chắc chắn muốn xóa học sinh này?")) {
-        $.ajax({
-            url: `http://localhost:8080/api/students/${id}`,
-            method: "DELETE",
-            success: function() {
-                alert("Xóa thành công!");
-                loadStudents(currentPage, pageSize);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error deleting student: ", error);
-                alert("Không thể xóa học sinh. Vui lòng thử lại.");
-            }
-        });
+        let token = getToken();
+        if (token == null) {
+            window.location.href = "/html/login/login.html";
+        } else {
+            $.ajax({
+                headers: {
+                    "Authorization": "Bearer " + token,
+                },
+                url: `http://localhost:8080/api/students/${id}`,
+                method: "DELETE",
+                success: function () {
+                    alert("Xóa thành công!");
+                    loadStudents(currentPage, pageSize);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error deleting student: ", error);
+                    alert("Không thể xóa học sinh. Vui lòng thử lại.");
+                }
+            });
+        }
     }
 }
 
@@ -234,17 +281,30 @@ function searchStudentsWithParams(page, size, params) {
         url += "/search/class" + queryParams;
     }
 
-    $.ajax({
-        url: url,
-        method: "GET",
-        success: function(response) {
-            updateTable(response.content);
-            updatePagination(response);
-        },
-        error: function(xhr, status, error) {
-            console.error("Error searching students: ", xhr.responseText || error);
-            alert("Không thể tìm kiếm học sinh. Vui lòng kiểm tra lại tiêu chí hoặc thử lại sau.");
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: url,
+            method: "GET",
+            success: function (response) {
+                updateTable(response.content);
+                updatePagination(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error searching students: ", xhr.responseText || error);
+                alert("Không thể tìm kiếm học sinh. Vui lòng kiểm tra lại tiêu chí hoặc thử lại sau.");
+            }
+        });
+    }
+}
 
+// viet lay du lieu tu ls
+function getToken() {
+    let token = localStorage.getItem('token');
+    return token;
 }

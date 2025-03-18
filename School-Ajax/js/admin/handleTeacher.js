@@ -14,16 +14,24 @@ function loadTeachers(page) {
     isSearching = false;
     currentSearchName = '';
     currentSearchSubject = '';
-    $.ajax({
-        url: `${BASE_URL}?page=${page}&size=${pageSize}`,
-        method: 'GET',
-        success: function (data) {
-            renderTeachers(data);
-        },
-        error: function () {
-            alert('Error loading teachers');
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `${BASE_URL}?page=${page}&size=${pageSize}`,
+            method: 'GET',
+            success: function (data) {
+                renderTeachers(data);
+            },
+            error: function () {
+                alert('Error loading teachers');
+            }
+        });
+    }
 }
 
 function searchTeachers() {
@@ -38,16 +46,24 @@ function searchTeachers() {
     if (name) url += `&name=${encodeURIComponent(name)}`;
     if (subject) url += `&subjectName=${encodeURIComponent(subject)}`;
 
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (data) {
-            renderTeachers(data);
-        },
-        error: function () {
-            alert('Error searching teachers');
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: url,
+            method: 'GET',
+            success: function (data) {
+                renderTeachers(data);
+            },
+            error: function () {
+                alert('Error searching teachers');
+            }
+        });
+    }
 }
 
 function searchTeachersByPage(page) {
@@ -56,16 +72,24 @@ function searchTeachersByPage(page) {
     if (currentSearchName) url += `&name=${encodeURIComponent(currentSearchName)}`;
     if (currentSearchSubject) url += `&subjectName=${encodeURIComponent(currentSearchSubject)}`;
 
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (data) {
-            renderTeachers(data);
-        },
-        error: function () {
-            alert('Error searching teachers');
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: url,
+            method: 'GET',
+            success: function (data) {
+                renderTeachers(data);
+            },
+            error: function () {
+                alert('Error searching teachers');
+            }
+        });
+    }
 }
 
 function renderTeachers(data) {
@@ -114,24 +138,32 @@ function openAddModal() {
 }
 
 function openEditModal(id) {
-    $.ajax({
-        url: `${BASE_URL}/${id}`,
-        method: 'GET',
-        success: function (teacher) {
-            $('#teacherModalLabel').text('Edit Teacher');
-            $('#teacherId').val(teacher.id);
-            $('#name').val(teacher.name);
-            $('#dob').val(teacher.dob);
-            $('#gender').val(teacher.gender);
-            $('#email').val(teacher.email);
-            $('#phone').val(teacher.phone);
-            $('#subject').val(teacher.subject ? teacher.subject.id : '');
-            $('#teacherModal').modal('show');
-        },
-        error: function () {
-            alert('Error fetching teacher');
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `${BASE_URL}/${id}`,
+            method: 'GET',
+            success: function (teacher) {
+                $('#teacherModalLabel').text('Edit Teacher');
+                $('#teacherId').val(teacher.id);
+                $('#name').val(teacher.name);
+                $('#dob').val(teacher.dob);
+                $('#gender').val(teacher.gender);
+                $('#email').val(teacher.email);
+                $('#phone').val(teacher.phone);
+                $('#subject').val(teacher.subject ? teacher.subject.id : '');
+                $('#teacherModal').modal('show');
+            },
+            error: function () {
+                alert('Error fetching teacher');
+            }
+        });
+    }
 }
 
 function saveTeacher() {
@@ -147,33 +179,49 @@ function saveTeacher() {
     const url = id ? `${BASE_URL}/${id}` : BASE_URL;
     const method = id ? 'PUT' : 'POST';
 
-    $.ajax({
-        url: url,
-        method: method,
-        contentType: 'application/json',
-        data: JSON.stringify(teacher),
-        success: function () {
-            $('#teacherModal').modal('hide');
-            loadTeachers(currentPage);
-        },
-        error: function (xhr) {
-            alert('Error saving teacher: ' + xhr.responseText);
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: url,
+            method: method,
+            contentType: 'application/json',
+            data: JSON.stringify(teacher),
+            success: function () {
+                $('#teacherModal').modal('hide');
+                loadTeachers(currentPage);
+            },
+            error: function (xhr) {
+                alert('Error saving teacher: ' + xhr.responseText);
+            }
+        });
+    }
 }
 
 function deleteTeacher(id) {
     if (confirm('Are you sure you want to delete this teacher?')) {
-        $.ajax({
-            url: `${BASE_URL}/${id}`,
-            method: 'DELETE',
-            success: function () {
-                loadTeachers(currentPage);
-            },
-            error: function () {
-                alert('Error deleting teacher');
-            }
-        });
+        let token = getToken();
+        if (token == null) {
+            window.location.href = "/html/login/login.html";
+        } else {
+            $.ajax({
+                headers: {
+                    "Authorization": "Bearer " + token,
+                },
+                url: `${BASE_URL}/${id}`,
+                method: 'DELETE',
+                success: function () {
+                    loadTeachers(currentPage);
+                },
+                error: function () {
+                    alert('Error deleting teacher');
+                }
+            });
+        }
     }
 }
 
@@ -191,36 +239,53 @@ function resetSearch() {
 
 function createUserForTeacher() {
     const teacherId = $('#teacherIdForUser').val();
-    $.ajax({
-        url: `${BASE_URL}/${teacherId}`,
-        method: 'GET',
-        success: function (teacher) {
-            const user = {
-                username: $('#username').val(),
-                password: $('#password').val(),
-                role: { id: parseInt($('#role').val()) }
-            };
-            const request = {
-                teacher: teacher,
-                user: user
-            };
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `${BASE_URL}/${teacherId}`,
+            method: 'GET',
+            success: function (teacher) {
+                const user = {
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                    role: {id: parseInt($('#role').val())}
+                };
+                const request = {
+                    teacher: teacher,
+                    user: user
+                };
 
-            $.ajax({
-                url: `${BASE_URL}/create-with-user`,
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(request),
-                success: function () {
-                    $('#userModal').modal('hide');
-                    loadTeachers(currentPage);
-                },
-                error: function (xhr) {
-                    alert('Error creating user: ' + xhr.responseText);
-                }
-            });
-        },
-        error: function () {
-            alert('Error fetching teacher for user creation');
-        }
-    });
+                $.ajax({
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                    },
+                    url: `${BASE_URL}/create-with-user`,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(request),
+                    success: function () {
+                        $('#userModal').modal('hide');
+                        loadTeachers(currentPage);
+                    },
+                    error: function (xhr) {
+                        alert('Error creating user: ' + xhr.responseText);
+                    }
+                });
+            },
+            error: function () {
+                alert('Error fetching teacher for user creation');
+            }
+        });
+    }
+}
+
+// viet lay du lieu tu ls
+function getToken() {
+    let token = localStorage.getItem('token');
+    return token;
 }
