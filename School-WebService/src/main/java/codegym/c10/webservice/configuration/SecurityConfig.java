@@ -59,10 +59,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/login").permitAll()
-                        // Teacher chỉ có thể truy cập student APIs
-                        .requestMatchers("/api/students/**").hasRole("TEACHER")
-                        // Admin có thể truy cập tất cả
-                        .anyRequest().hasRole("ADMIN")
+//                        .anyRequest().hasRole("ADMIN")
+                        .anyRequest().hasAnyRole("ADMIN", "TEACHER")
                 )
                 .build();
     }
