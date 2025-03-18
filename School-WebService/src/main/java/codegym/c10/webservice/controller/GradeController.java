@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/grades")
+@CrossOrigin(origins = "*")
 public class GradeController {
     @Autowired
     private IGradeService iGradeService;
