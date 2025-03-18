@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/teachers")
 @CrossOrigin("*")
@@ -89,4 +91,11 @@ public class TeacherController {
         Page<Teacher> teachers = teacherService.searchTeachers(name, gender, subjectName, pageNumber, pageSize, sortBy, direction);
         return new ResponseEntity<>(teachers, HttpStatus.OK);
     }
+
+//    // Endpoint mới: Lấy danh sách tên giáo viên
+//    @GetMapping("/names")
+//    public ResponseEntity<List<String>> getTeacherNames() {
+//        List<String> teacherNames = teacherService.findAllTeacherNames();
+//        return new ResponseEntity<>(teacherNames, HttpStatus.OK);
+//    }
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,4 +26,11 @@ public interface ITeacherRepository extends JpaRepository<Teacher, Integer> {
             @Param("subjectName") SubjectEnum subjectName,
             Pageable pageable);
 
+
+
+//
+//    // Tìm kiếm giáo viên theo tên
+//    @Query("SELECT t.name FROM Teacher t")
+//    List<String> findAllTeacherNames();
 }
+

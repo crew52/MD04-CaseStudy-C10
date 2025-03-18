@@ -2,6 +2,8 @@ package codegym.c10.webservice.model.repository;
 
 import codegym.c10.webservice.model.eNum.DayOfWeekEnum;
 import codegym.c10.webservice.model.entity.Schedule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -24,4 +26,15 @@ public interface IScheduleRepository extends CrudRepository<Schedule, Integer> {
     // Dùng @Query để viết truy vấn SQL tùy chỉnh
     @Query("SELECT s FROM Schedule s WHERE s.classEntity.id = :classId AND s.dayOfWeek = :dayOfWeek")
     List<Schedule> findByClassAndDay(@Param("classId") Integer classId, @Param("dayOfWeek") DayOfWeekEnum dayOfWeek);
+
+
+    // tim kiem theo id cua teacher
+    @Query("SELECT s FROM Schedule s JOIN FETCH s.classEntity JOIN FETCH s.subject WHERE s.teacher.id = :teacherId")
+    List<Schedule> findByTeacherIdWithDetails(@Param("teacherId") Integer teacherId);
+
+    // tim kiem theo ten cua teacher
+    @Query("SELECT s FROM Schedule s WHERE s.teacher.name = :teacherName")
+    List<Schedule> findByTeacherName(@Param("teacherName") String teacherName);
+
+
 }
