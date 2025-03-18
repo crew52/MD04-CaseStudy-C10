@@ -9,13 +9,12 @@ function loadAttendances() {
     // let url;
     let token = getToken();
     console.log(token);
-    if (token==null) {
+    if (token == null) {
         window.location.href = "/html/login/login.html";
-    }
-    else {
+    } else {
         $.ajax({
-            headers:{
-                "Authorization": "Bearer "+token,
+            headers: {
+                "Authorization": "Bearer " + token,
             },
             url: "http://localhost:8080/api/attendances",
             method: "GET",
@@ -68,65 +67,89 @@ function updatePagination(response) {
 }
 
 function deleteAttendance(attendanceId) {
-    if (confirm("Bạn có chắc chắn muốn xóa điểm danh này?")) {
-        $.ajax({
-            url: `http://localhost:8080/api/attendances/${attendanceId}`,
-            method: "DELETE",
-            success: function () {
-                alert("Xóa điểm thành công!");
-                loadAttendances(); // Load lại danh sách
-            },
-            error: function () {
-                alert("Lỗi khi xóa điểm danh!");
-            }
-        });
-    }
-}
-
-    function editAttendance(attendanceId) {
-    Swal.fire({
-        title: "Chọn trạng thái mới",
-        input: "select",
-        inputOptions: {
-            PRESENT: "PRESENT",
-            ABSENT: "ABSENT",
-            LATE: "LATE"
-        },
-        inputPlaceholder: "Chọn trạng thái",
-        showCancelButton: true,
-        confirmButtonText: "Cập nhật",
-        cancelButtonText: "Hủy"
-    }).then((result) => {
-        if (result.isConfirmed && result.value) {
-            let newStatus = result.value;
-
+    // let url;
+    let token = getToken();
+    console.log(token);
+    if (token == null) {
+        window.location.href = "/html/login/login.html";
+    } else {
+        if (confirm("Bạn có chắc chắn muốn xóa điểm danh này?")) {
             $.ajax({
+                headers: {
+                    "Authorization": "Bearer " + token,
+                },
                 url: `http://localhost:8080/api/attendances/${attendanceId}`,
-                method: "GET",
-                success: function (attendance) {
-                    attendance.status = newStatus; // Cập nhật trạng thái mới
-
-                    // Gửi lại toàn bộ đối tượng
-                    $.ajax({
-                        url: `http://localhost:8080/api/attendances/${attendanceId}`,
-                        method: "PUT",
-                        contentType: "application/json",
-                        data: JSON.stringify(attendance),
-                        success: function () {
-                            Swal.fire("Thành công!", "Cập nhật điểm danh thành công!", "success");
-                            loadAttendances(); // Load lại danh sách
-                        },
-                        error: function () {
-                            Swal.fire("Lỗi!", "Lỗi khi cập nhật điểm danh!", "error");
-                        }
-                    });
+                method: "DELETE",
+                success: function () {
+                    alert("Xóa điểm thành công!");
+                    loadAttendances(); // Load lại danh sách
                 },
                 error: function () {
-                    Swal.fire("Lỗi!", "Lỗi khi lấy dữ liệu điểm danh!", "error");
+                    alert("Lỗi khi xóa điểm danh!");
                 }
             });
         }
-    });
+    }
+}
+
+function editAttendance(attendanceId) {
+    // let url;
+    let token = getToken();
+    console.log(token);
+    if (token==null) {
+        window.location.href = "/html/login/login.html";
+    }
+    else {
+        Swal.fire({
+            title: "Chọn trạng thái mới",
+            input: "select",
+            inputOptions: {
+                PRESENT: "PRESENT",
+                ABSENT: "ABSENT",
+                LATE: "LATE"
+            },
+            inputPlaceholder: "Chọn trạng thái",
+            showCancelButton: true,
+            confirmButtonText: "Cập nhật",
+            cancelButtonText: "Hủy"
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                let newStatus = result.value;
+
+                $.ajax({
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                    },
+                    url: `http://localhost:8080/api/attendances/${attendanceId}`,
+                    method: "GET",
+                    success: function (attendance) {
+                        attendance.status = newStatus; // Cập nhật trạng thái mới
+
+                        // Gửi lại toàn bộ đối tượng
+                        $.ajax({
+                            headers: {
+                                "Authorization": "Bearer " + token,
+                            },
+                            url: `http://localhost:8080/api/attendances/${attendanceId}`,
+                            method: "PUT",
+                            contentType: "application/json",
+                            data: JSON.stringify(attendance),
+                            success: function () {
+                                Swal.fire("Thành công!", "Cập nhật điểm danh thành công!", "success");
+                                loadAttendances(); // Load lại danh sách
+                            },
+                            error: function () {
+                                Swal.fire("Lỗi!", "Lỗi khi cập nhật điểm danh!", "error");
+                            }
+                        });
+                    },
+                    error: function () {
+                        Swal.fire("Lỗi!", "Lỗi khi lấy dữ liệu điểm danh!", "error");
+                    }
+                });
+            }
+        });
+    }
 }
 
 function searchAttendances() {
@@ -137,13 +160,12 @@ function searchAttendances() {
     // let url;
     let token = getToken();
     console.log(token);
-    if (token==null) {
+    if (token == null) {
         window.location.href = "/html/login/login.html";
-    }
-    else {
+    } else {
         $.ajax({
-            headers:{
-                "Authorization": "Bearer "+token,
+            headers: {
+                "Authorization": "Bearer " + token,
             },
             url: "http://localhost:8080/api/attendances/search",
             method: "GET",
@@ -169,46 +191,58 @@ function searchAttendances() {
 
 
 function changePage(direction) {
-    let newPage = currentPage + direction;
-    if (newPage < 0 || newPage >= totalPages) return; // Không cho vượt giới hạn
+    // let url;
+    let token = getToken();
+    console.log(token);
+    if (token==null) {
+        window.location.href = "/html/login/login.html";
+    }
+    else {
+        let newPage = currentPage + direction;
+        if (newPage < 0 || newPage >= totalPages) return; // Không cho vượt giới hạn
 
-    currentPage = newPage;
+        currentPage = newPage;
 
-    let className = $("#className").val().trim();
-    let studentName = $("#studentName").val().trim();
+        let className = $("#className").val().trim();
+        let studentName = $("#studentName").val().trim();
 
-    if (className || studentName ) {
-        // Nếu có dữ liệu tìm kiếm, gọi searchGrades() nhưng không reset currentPage
-        $.ajax({
-            url: "http://localhost:8080/api/attendances/search",
-            method: "GET",
-            data: {
-                className: className,
-                studentName: studentName,
-                page: currentPage,
-                size: pageSize
-            },
-            success: function (response) {
-                console.log("Pagination search result:", response);
-                totalPages = response.totalPages; // Cập nhật totalPages
-                renderTable(response.content);
-                updatePagination(response);
-            },
-            error: function (xhr, status, error) {
-                console.error("Pagination search error:", status, error);
-                alert("Failed to load search results!");
-            }
-        });
-    } else {
-        loadAttendances();
+        if (className || studentName) {
+            // Nếu có dữ liệu tìm kiếm, gọi searchGrades() nhưng không reset currentPage
+            $.ajax({
+                headers: {
+                    "Authorization": "Bearer " + token,
+                },
+                url: "http://localhost:8080/api/attendances/search",
+                method: "GET",
+                data: {
+                    className: className,
+                    studentName: studentName,
+                    page: currentPage,
+                    size: pageSize
+                },
+                success: function (response) {
+                    console.log("Pagination search result:", response);
+                    totalPages = response.totalPages; // Cập nhật totalPages
+                    renderTable(response.content);
+                    updatePagination(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Pagination search error:", status, error);
+                    alert("Failed to load search results!");
+                }
+            });
+        } else {
+            loadAttendances();
+        }
     }
 }
 
 // viet lay du lieu tu ls
-function getToken(){
+function getToken() {
     let token = localStorage.getItem('token');
     return token;
 }
+
 // phai dang nhap moi co token
 // localStorage.setItem("token", token)
 
