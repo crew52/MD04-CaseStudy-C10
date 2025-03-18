@@ -246,5 +246,13 @@ function searchStudentsWithParams(page, size, params) {
             alert("Không thể tìm kiếm học sinh. Vui lòng kiểm tra lại tiêu chí hoặc thử lại sau.");
         }
     });
+}
 
+// Reset dữ liệu về trạng thái ban đầu
+function resetData() {
+    currentSearchParams = null; // Xóa tiêu chí tìm kiếm
+    currentPage = 0; // Đặt lại về trang đầu
+    $("#searchName").val(""); // Xóa trường tìm kiếm tên
+    $("#searchClassId").val(""); // Đặt lại dropdown lớp về mặc định
+    loadStudents(currentPage, pageSize); // Tải lại danh sách mặc định
 }
