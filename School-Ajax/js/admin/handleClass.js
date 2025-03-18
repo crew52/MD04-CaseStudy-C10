@@ -145,7 +145,3 @@ function deleteClass(id) {
         });
     }
 }
-
-$(document).ready(function () {
-    loadClasses();
-});

@@ -6,20 +6,31 @@ $(document).ready(function () {
 });
 
 function loadAttendances() {
-    $.ajax({
-        url: "http://localhost:8080/api/attendances",
-        method: "GET",
-        data: { page: currentPage, size: pageSize },
-        success: function (response) {
-            console.log("Received attendance data:", response);
-            renderTable(response.content);
-            updatePagination(response);
-        },
-        error: function (xhr, status, error) {
-            console.error("Error loading attendances:", status, error);
-            alert("Failed to attendance grades!");
-        }
-    });
+    // let url;
+    let token = getToken();
+    console.log(token);
+    if (token==null) {
+        window.location.href = "/html/login/login.html";
+    }
+    else {
+        $.ajax({
+            headers:{
+                "Authorization": "Bearer "+token,
+            },
+            url: "http://localhost:8080/api/attendances",
+            method: "GET",
+            data: {page: currentPage, size: pageSize},
+            success: function (response) {
+                console.log("Received attendance data:", response);
+                renderTable(response.content);
+                updatePagination(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error loading attendances:", status, error);
+                alert("Failed to attendance grades!");
+            }
+        });
+    }
 }
 
 function renderTable(attendances) {
@@ -123,26 +134,37 @@ function searchAttendances() {
     let studentName = $("#studentName").val();
     currentPage = 0; // Reset về trang đầu khi tìm kiếm
 
-    $.ajax({
-        url: "http://localhost:8080/api/attendances/search",
-        method: "GET",
-        data: {
-            className: className,
-            studentName: studentName,
-            page: currentPage,
-            size: pageSize
-        },
-        success: function (response) {
-            console.log("Search result:", response);
-            totalPages = response.totalPages; // Cập nhật totalPages
-            renderTable(response.content);
-            updatePagination(response);
-        },
-        error: function (xhr, status, error) {
-            console.error("Search error:", status, error);
-            alert("Failed to search grades!");
-        }
-    });
+    // let url;
+    let token = getToken();
+    console.log(token);
+    if (token==null) {
+        window.location.href = "/html/login/login.html";
+    }
+    else {
+        $.ajax({
+            headers:{
+                "Authorization": "Bearer "+token,
+            },
+            url: "http://localhost:8080/api/attendances/search",
+            method: "GET",
+            data: {
+                className: className,
+                studentName: studentName,
+                page: currentPage,
+                size: pageSize
+            },
+            success: function (response) {
+                console.log("Search result:", response);
+                totalPages = response.totalPages; // Cập nhật totalPages
+                renderTable(response.content);
+                updatePagination(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Search error:", status, error);
+                alert("Failed to search grades!");
+            }
+        });
+    }
 }
 
 
@@ -181,4 +203,19 @@ function changePage(direction) {
         loadAttendances();
     }
 }
+
+// viet lay du lieu tu ls
+function getToken(){
+    let token = localStorage.getItem('token');
+    return token;
+}
+// phai dang nhap moi co token
+// localStorage.setItem("token", token)
+
+function getName() {
+    let name = localStorage.getItem('name');
+    document.getElementById("name").innerText = name;
+}
+
+getName()
 
