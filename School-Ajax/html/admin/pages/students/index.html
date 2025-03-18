@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Học sinh</title>
+    <title>Quản lý Lịch học</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -19,8 +18,122 @@
 
     <!-- Nội dung chính -->
     <div id="content" class="flex-grow-1 p-3">
-        <h3>Quản lý Học sinh</h3>
-        <p>Danh sách Học sinh sẽ hiển thị tại đây.</p>
+        <h3>Quản lý Học Sinh</h3>
+
+        <!-- Nút mở modal để thêm học sinh -->
+        <div class="mb-4">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#studentModal" onclick="prepareAddStudent()">
+                <i class="fas fa-plus"></i> Thêm Học Sinh
+            </button>
+            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#searchModal">
+                <i class="fas fa-search"></i> Tìm Kiếm
+            </button>
+        </div>
+
+        <!-- Bảng danh sách học sinh -->
+        <div class="card">
+            <div class="card-header">Danh Sách Học Sinh</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Ngày Sinh</th>
+                        <th>Giới Tính</th>
+                        <th>Lớp</th>
+                        <th>Liên Hệ Phụ Huynh</th>
+                        <th>Hành Động</th>
+                    </tr>
+                    </thead>
+                    <tbody id="studentTableBody"></tbody>
+                </table>
+
+                <!-- Phân trang -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-secondary" onclick="changePage(-1)">Trang Trước</button>
+                        <span id="pageInfo" class="mx-2"></span>
+                        <button class="btn btn-secondary" onclick="changePage(1)">Trang Sau</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal cho Thêm/Cập nhật Học Sinh -->
+        <div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="studentModalLabel">Thêm/Cập Nhật Học Sinh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="studentForm">
+                            <div class="mb-3">
+                                <input type="hidden" id="studentId" name="id">
+                                <label for="studentName" class="form-label">Tên Học Sinh</label>
+                                <input type="text" class="form-control" id="studentName" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dob" class="form-label">Ngày Sinh</label>
+                                <input type="date" class="form-control" id="dob" name="dob" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Giới Tính</label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="MALE">Nam</option>
+                                    <option value="FEMALE">Nữ</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="classId" class="form-label">Lớp</label>
+                                <select class="form-select" id="classId" name="classId" required>
+                                    <!-- Dữ liệu lớp sẽ được tải bằng AJAX -->
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="parentContact" class="form-label">Liên Hệ Phụ Huynh</label>
+                                <input type="text" class="form-control" id="parentContact" name="parentContact" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary" onclick="saveStudent()">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal cho Tìm Kiếm -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchModalLabel">Tìm Kiếm Học Sinh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="searchName" class="form-label">Tên Học Sinh</label>
+                            <input type="text" class="form-control" id="searchName" placeholder="Nhập tên học sinh">
+                        </div>
+                        <div class="mb-3">
+                            <label for="searchClassId" class="form-label">Lớp</label>
+                            <select class="form-select" id="searchClassId" name="searchClassId">
+                                <option value="">Tất cả các lớp</option>
+                                <!-- Dữ liệu lớp sẽ được tải bằng AJAX -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary" onclick="searchStudents()">Tìm Kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -30,9 +143,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../../../js/admin/loadComponents.js"></script>
-
+<script src="../../../../js/admin/handleStudent.js"></script>
 </body>
 </html>
-
-
-

@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MD04-CaseStudy-C10.iml" filepath="$PROJECT_DIR$/.idea/MD04-CaseStudy-C10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CaseStudy.iml" filepath="$PROJECT_DIR$/.idea/CaseStudy.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/School-WebService.iml" filepath="$PROJECT_DIR$/.idea/modules/School-WebService.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/School-WebService.test.iml" filepath="$PROJECT_DIR$/.idea/modules/School-WebService.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/codegym.c10.School-WebService.main.iml" filepath="$PROJECT_DIR$/.idea/modules/codegym.c10.School-WebService.main.iml" />
     </modules>
   </component>
 </project>
