@@ -71,6 +71,7 @@ CREATE TABLE students (
     FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE SET NULL
 );
 
+
 CREATE TABLE schedules (
     id INT PRIMARY KEY AUTO_INCREMENT,
     class_id INT NOT NULL,
