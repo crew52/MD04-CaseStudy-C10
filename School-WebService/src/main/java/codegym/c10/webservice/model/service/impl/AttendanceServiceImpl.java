@@ -59,8 +59,10 @@ public class AttendanceServiceImpl implements IAttendanceService {
                 .scheduleId(attendance.getSchedule().getId())
                 .studentName(attendance.getStudent().getName()) // Lấy tên học sinh
                 .status(attendance.getStatus())
+                .classId(attendance.getSchedule().getClassEntity().getId())
                 .className(attendance.getSchedule().getClassEntity().getClassName()) // Lấy tên lớp
                 .subjectName(attendance.getSchedule().getSubject().getSubjectName().toString())
+                .teacherId(attendance.getSchedule().getTeacher().getId()) // Lấy tên giáo viên
                 .teacherName(attendance.getSchedule().getTeacher().getName()) // Lấy tên giáo viên
                 .date(attendance.getSchedule().getDate()) // Lấy ngày học
                 .startTime(attendance.getSchedule().getStartTime()) // Lấy giờ bắt đầu
@@ -81,6 +83,13 @@ public class AttendanceServiceImpl implements IAttendanceService {
     public Page<AttendanceDTO> searchAttendances(String className, String studentName, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         return iAttendanceRepository.searchAttendances(className, studentName, pageable)
+                .map(this::convertToDTO);
+    }
+
+    @Override
+    public Page<AttendanceDTO> getTeacherAttendances(Integer teacherId, String className, String studentName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return iAttendanceRepository.getTeacherAttendances(teacherId, className, studentName, pageable)
                 .map(this::convertToDTO);
     }
 }
