@@ -46,8 +46,26 @@ public class TeacherService implements ITeacherService {
     }
 
     @Override
-    public Teacher save(Teacher T) {
-        return teacherRepository.save(T);
+    public Teacher save(Teacher teacher) {
+        if (teacher.getId() != null) {
+            Optional<Teacher> existingTeacher = teacherRepository.findById(teacher.getId());
+            if (existingTeacher.isPresent()) {
+                Teacher current = existingTeacher.get();
+                // Chỉ cập nhật các trường được gửi, giữ nguyên user nếu không thay đổi
+                current.setName(teacher.getName());
+                current.setDob(teacher.getDob());
+                current.setGender(teacher.getGender());
+                current.setEmail(teacher.getEmail());
+                current.setPhone(teacher.getPhone());
+                current.setSubject(teacher.getSubject());
+                // Giữ nguyên user nếu request không gửi user
+                if (teacher.getUser() != null) {
+                    current.setUser(teacher.getUser());
+                }
+                return teacherRepository.save(current);
+            }
+        }
+        return teacherRepository.save(teacher); // Thêm mới nếu không có id
     }
 
     @Override
