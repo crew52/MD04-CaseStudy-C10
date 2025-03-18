@@ -1,9 +1,11 @@
 package codegym.c10.webservice.controller;
 
 import codegym.c10.webservice.model.dto.AttendanceDTO;
+import codegym.c10.webservice.model.dto.GradeDTO;
 import codegym.c10.webservice.model.service.iface.IAttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +13,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/attendances")
+@CrossOrigin(origins = "*")
 public class AttendanceController {
 
     @Autowired
     private IAttendanceService attendanceService;
 
     @GetMapping
-    public ResponseEntity<List<AttendanceDTO>> getAllAttendances() {
-        return ResponseEntity.ok((List<AttendanceDTO>) attendanceService.findAll());
+    public ResponseEntity<Page<AttendanceDTO>> getAllAttendances(@RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "10") int size) {
+        Page<AttendanceDTO>  attendanceDTOS = attendanceService.findAll(PageRequest.of(page, size));
+        return ResponseEntity.ok(attendanceDTOS);
     }
 
     @GetMapping("/{id}")
