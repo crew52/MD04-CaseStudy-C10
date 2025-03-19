@@ -16,7 +16,18 @@
   <a href="change-password.html" class="nav-link text-white page-link mb-2">
     <i class="fa fa-key"></i> Đổi mật khẩu
   </a>
-  <a href="logout.html" class="nav-link text-white mt-3">
+  <a href="/School-Ajax/html/login/login.html" class="nav-link text-white mt-3" onclick="logout(); return false;">
     <i class="fa fa-sign-out-alt"></i> Đăng xuất
   </a>
+
 </div>
+
+<script>
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    localStorage.removeItem("role");
+    window.location.href = "/School-Ajax/html/login/login.html";
+  }
+
+</script>
