@@ -3,21 +3,34 @@ const BASE_URL = 'http://localhost:8080';
 // Giả sử userId được lưu trong localStorage sau khi đăng nhập
 const userId = localStorage.getItem('userId') || 1; // Thay bằng logic thực tế để lấy userId
 
+// Hàm lấy token từ localStorage
+function getToken() {
+    return localStorage.getItem('token');
+}
+
 // Tải thông tin giáo viên và lớp chủ nhiệm
 function loadTeacherAndClassInfo() {
-    $.ajax({
-        url: `${BASE_URL}/api/teachersProfile/details/${userId}`,
-        method: 'GET',
-        success: function (teacher) {
-            displayTeacherAndClassInfo(teacher);
-        },
-        error: function (xhr) {
-            console.error('Error loading teacher profile:', xhr);
-            alert('Không thể tải thông tin giáo viên và lớp!');
-            $('#teacherName').text('Chưa có dữ liệu');
-            $('#className').text('Chưa có lớp');
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html"; // Chuyển hướng nếu không có token
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `${BASE_URL}/api/teachersProfile/details/${userId}`,
+            method: 'GET',
+            success: function (teacher) {
+                displayTeacherAndClassInfo(teacher);
+            },
+            error: function (xhr) {
+                console.error('Error loading teacher profile:', xhr);
+                alert('Không thể tải thông tin giáo viên và lớp!');
+                $('#teacherName').text('Chưa có dữ liệu');
+                $('#className').text('Chưa có lớp');
+            }
+        });
+    }
 }
 
 // Hiển thị thông tin giáo viên và lớp
@@ -43,23 +56,31 @@ function loadStudents(classId) {
         return;
     }
 
-    $.ajax({
-        url: `${BASE_URL}/api/teachersProfile/details/${userId}`,
-        method: 'GET',
-        success: function (teacher) {
-            if (teacher.classInfo && teacher.classInfo.id === classId && teacher.students) {
-                displayStudents(teacher.students);
-            } else {
-                $('#studentTableBody').html('<tr><td colspan="6" class="text-center">Không có học sinh nào trong lớp này</td></tr>');
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html"; // Chuyển hướng nếu không có token
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `${BASE_URL}/api/teachersProfile/details/${userId}`,
+            method: 'GET',
+            success: function (teacher) {
+                if (teacher.classInfo && teacher.classInfo.id === classId && teacher.students) {
+                    displayStudents(teacher.students);
+                } else {
+                    $('#studentTableBody').html('<tr><td colspan="6" class="text-center">Không có học sinh nào trong lớp này</td></tr>');
+                    $('#studentTable').show();
+                }
+            },
+            error: function (xhr) {
+                console.error('Error loading students:', xhr);
+                $('#studentTableBody').html('<tr><td colspan="6" class="text-center">Lỗi khi tải danh sách học sinh</td></tr>');
                 $('#studentTable').show();
             }
-        },
-        error: function (xhr) {
-            console.error('Error loading students:', xhr);
-            $('#studentTableBody').html('<tr><td colspan="6" class="text-center">Lỗi khi tải danh sách học sinh</td></tr>');
-            $('#studentTable').show();
-        }
-    });
+        });
+    }
 }
 
 // Hiển thị danh sách học sinh
@@ -75,7 +96,6 @@ function displayStudents(students) {
                     <td>${student.name}</td>
                     <td>${student.dob}</td>
                     <td>${student.gender === 'MALE' ? 'Nam' : 'Nữ'}</td>
-                    <td>${student.address || 'Chưa có dữ liệu'}</td>
                     <td>${student.parentContact || 'Chưa có dữ liệu'}</td>
                 </tr>
             `;

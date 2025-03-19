@@ -14,20 +14,34 @@ const defaultTeacher = {
     username: "teacher1"
 };
 
+// Hàm lấy token từ localStorage
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+
 // Tải thông tin giáo viên và hiển thị trên thẻ
 function loadTeacherProfile() {
-    $.ajax({
-        url: `${BASE_URL}/api/teachersProfile/${userId}`,
-        method: 'GET',
-        success: function (teacher) {
-            displayTeacherData(teacher);
-        },
-        error: function (xhr) {
-            console.error('Error loading teacher profile:', xhr);
-            alert('Không thể tải thông tin giáo viên từ server! Hiển thị dữ liệu mặc định để test.');
-            displayTeacherData(defaultTeacher);
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html"; // Chuyển hướng nếu không có token
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `${BASE_URL}/api/teachersProfile/${userId}`,
+            method: 'GET',
+            success: function (teacher) {
+                displayTeacherData(teacher);
+            },
+            error: function (xhr) {
+                console.error('Error loading teacher profile:', xhr);
+                alert('Không thể tải thông tin giáo viên từ server! Hiển thị dữ liệu mặc định để test.');
+                displayTeacherData(defaultTeacher);
+            }
+        });
+    }
 }
 
 // Hiển thị dữ liệu lên giao diện
@@ -77,21 +91,29 @@ function updateTeacherProfile() {
         return;
     }
 
-    $.ajax({
-        url: `${BASE_URL}/api/teachersProfile/${userId}`,
-        method: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(teacherData),
-        success: function (response) {
-            alert('Cập nhật thông tin giáo viên thành công!');
-            toggleEditForm(); // Ẩn form sau khi lưu
-            loadTeacherProfile(); // Tải lại thông tin để cập nhật thẻ
-        },
-        error: function (xhr) {
-            console.error('Error updating teacher profile:', xhr);
-            alert('Không thể cập nhật thông tin giáo viên: ' + (xhr.responseText || 'Lỗi không xác định'));
-        }
-    });
+    let token = getToken();
+    if (token == null) {
+        window.location.href = "/html/login/login.html"; // Chuyển hướng nếu không có token
+    } else {
+        $.ajax({
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            url: `${BASE_URL}/api/teachersProfile/${userId}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(teacherData),
+            success: function (response) {
+                alert('Cập nhật thông tin giáo viên thành công!');
+                toggleEditForm(); // Ẩn form sau khi lưu
+                loadTeacherProfile(); // Tải lại thông tin để cập nhật thẻ
+            },
+            error: function (xhr) {
+                console.error('Error updating teacher profile:', xhr);
+                alert('Không thể cập nhật thông tin giáo viên: ' + (xhr.responseText || 'Lỗi không xác định'));
+            }
+        });
+    }
 }
 
 // Tải thông tin khi trang được tải
