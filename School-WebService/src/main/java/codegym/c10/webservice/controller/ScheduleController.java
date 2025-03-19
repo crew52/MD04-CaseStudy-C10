@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:63342") // CHO PHÉP TRUY CẬP TỪ CLIENT
+@CrossOrigin("*") // CHO PHÉP TRUY CẬP TỪ CLIENT
 @RequestMapping("/schedules")
 public class ScheduleController {
     @Autowired
