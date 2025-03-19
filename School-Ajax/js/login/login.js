@@ -21,6 +21,7 @@ function login() {
         success: function (result) {
             localStorage.setItem("token", result.token);
             localStorage.setItem("name", result.name);
+            localStorage.setItem("userId", result.id);
 
             // Lấy role từ authorities
             let role = result.authorities.length > 0 ? result.authorities[0].authority : null;
