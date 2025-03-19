@@ -23,6 +23,18 @@
   <a href="../attendance/index.html" class="nav-link text-white page-link mb-2" >
     <i class="fa fa-chart-bar"></i> Quản lý Điểm danh
   </a>
-  <a href="logout.html" class="nav-link text-white mt-3"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
+  <a  class="nav-link text-white mt-3" onclick="logout(); return false;">
+    <i class="fa fa-sign-out-alt"></i> Đăng xuất
+  </a>
 </div>
 
+<script>
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    localStorage.removeItem("role");
+    // Điều hướng về trang đăng nhập
+    window.location.href = "/School-Ajax/html/login/login.html";
+  }
+
+</script>
