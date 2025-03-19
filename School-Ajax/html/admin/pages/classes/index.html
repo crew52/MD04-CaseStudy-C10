@@ -20,13 +20,12 @@
     <div id="content" class="flex-grow-1 p-3">
         <h3>Quản lý Lớp học</h3>
 
-        <!-- Nút mở modal để thêm lớp và reset -->
+        <h1 class="text-center mb-4" id="name"></h1>
+
+        <!-- Nút mở modal để thêm lớp -->
         <div class="mb-4">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#classModal" onclick="prepareAddClass()">
                 <i class="fas fa-plus"></i> Thêm Lớp học
-            </button>
-            <button class="btn btn-secondary" onclick="resetData()">
-                <i class="fas fa-sync-alt"></i> Reset
             </button>
         </div>
 
@@ -99,11 +98,8 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="teacherId" class="form-label">Giáo viên (Tùy chọn)</label>
-                                <select class="form-control" id="teacherId" name="teacherId">
-                                    <option value="">Chọn giáo viên</option>
-                                    <!-- Danh sách giáo viên sẽ được thêm động bằng JavaScript -->
-                                </select>
+                                <label for="teacherId" class="form-label">ID Giáo viên (Tùy chọn)</label>
+                                <input type="number" class="form-control" id="teacherId" name="teacherId">
                             </div>
                         </form>
                     </div>
